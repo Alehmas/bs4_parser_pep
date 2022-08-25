@@ -51,7 +51,7 @@ def test_whats_new(mock_session):
     )
 
 
-@pytest.mark.skip()
+
 def test_latest_versions(mock_session):
     got = main.latest_versions(mock_session)
     assert isinstance(got, list), (

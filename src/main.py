@@ -51,7 +51,7 @@ def latest_versions(session):
             break
         else:
             raise Exception('Ничего не нашлось')
-    results = [('Ссылка на версию', 'Версия', 'Статус')]
+    results = [('Ссылка на документацию', 'Версия', 'Статус')]
     pattern = r'Python (?P<version>\d\.\d+) \((?P<status>.*)\)'
     for a_tag in a_tags:
         link = a_tag['href']
@@ -98,7 +98,7 @@ def pep(session):
     count_pep = 0
     count_list = {}
     count_list['Статус'] = 'Количество'
-    for i in list_date[:10]:  # убрать лимит!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    for i in tqdm(list_date):
         pep_href = i.find('a', {'class': 'pep'})['href']
         status_main_date = i.contents[0].text
         pep_link = urljoin(PEP_NEW_URL, pep_href)
@@ -114,18 +114,16 @@ def pep(session):
         if len(status_main_date) > 1:
             status = status_main_date[1:]
             if pep_status not in EXPECTED_STATUS[status]:
-                logging.info(f'Несовпадающий статус: {pep_link}\n'
-                             f'Статус в карточке: {pep_status}\n'
+                logging.info(f'Несовпадающий статус: {pep_link} '
+                             f'Статус в карточке: {pep_status} '
                              f'Ожидаемые статусы: {EXPECTED_STATUS[status]}')
-                print(f'Ошибка {pep_status}, {status}')
         if pep_status not in count_list:
             count_list[pep_status] = 1
         else:
             count_list[pep_status] += 1
         count_pep += 1
     count_list['Total'] = count_pep
-    result = list(count_list.items())
-    return result
+    return list(count_list.items())
 
 
 MODE_TO_FUNCTION = {

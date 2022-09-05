@@ -7,6 +7,7 @@ def get_response(session, url):
     try:
         response = session.get(url)
         response.encoding = 'utf-8'
+        response.raise_for_status()
         return response
     except RequestException:
         raise RequestException(

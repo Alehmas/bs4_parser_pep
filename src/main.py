@@ -19,12 +19,9 @@ from utils import find_tag, get_response
 
 def whats_new(session):
     response = get_response(session, WHATS_NEW)
-    if response is None:
-        return
     soup = BeautifulSoup(response.text, 'lxml')  # не понял как убрать повторы
     main_div = find_tag(soup, 'section', attrs={'id': 'what-s-new-in-python'})
     div_with_ul = find_tag(main_div, 'div', attrs={'class': 'toctree-wrapper'})
-    # не получилось перебрать список от select и find в нем не работает
     sections_by_python = div_with_ul.find_all(
         'li', attrs={'class': 'toctree-l1'})
     results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
@@ -45,8 +42,6 @@ def whats_new(session):
 
 def latest_versions(session):
     response = get_response(session, MAIN_DOC_URL)
-    if response is None:
-        return
     soup = BeautifulSoup(response.text, 'lxml')
     sidebar = find_tag(soup, 'div', attrs={'class': 'sphinxsidebarwrapper'})
     ul_tags = sidebar.find_all('ul')
@@ -73,8 +68,6 @@ def latest_versions(session):
 
 def download(session):
     response = get_response(session, DOWNLOADS_URL)
-    if response is None:
-        return
     soup = BeautifulSoup(response.text, 'lxml')
     main_tag = find_tag(soup, 'div', {'role': 'main'})
     table_tag = find_tag(main_tag, 'table', {'class': 'docutils'})

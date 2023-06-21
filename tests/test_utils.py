@@ -6,21 +6,21 @@ from conftest import MAIN_DOC_URL
 try:
     from src import utils
 except ModuleNotFoundError:
-    assert False, 'Убедитесь что в директории `src` есть файл `utils.py`'
+    assert False, 'Make sure there is a `utils.py` file in the `src` directory'
 except ImportError:
-    assert False, 'Убедитесь что в директории `src` есть файл `utils.py`'
+    assert False, 'Make sure there is a `utils.py` file in the `src` directory'
 
 
 def test_find_tag(soup):
     got = utils.find_tag(soup, 'section', attrs={'id': 'what-s-new-in-python'})
     assert isinstance(got, bs4.element.Tag), (
-        'Функция `find_tag` в модуле `utils.py` должна возвращать искомый тег'
+        'The `find_tag` function in the `utils.py` module must return the tag you are looking for'
     )
     assert (
         '<section id="what-s-new-in-python">' in got.__str__()
     ), (
-        'Функция `find_tag` модуля `utils.py` '
-        'не вернула ожидаемый <section> с `id=what-s-new-in-python`'
+        'Function `find_tag` of module `utils.py` '
+        'did not return expected <section> with `id=what-s-new-in-python`'
     )
 
 
@@ -28,13 +28,13 @@ def test_find_tag_exception(soup):
     with pytest.raises(BaseException) as excinfo:
         utils.find_tag(soup, 'unexpected')
     assert excinfo.typename == 'ParserFindTagException', (
-        'Функция `find_tag` в модуле `utils.py` в случае '
-        'отсутствия искомого тэга'
-        'должна выбросить нестандартное исключение `ParserFindTagException`'
+        'The `find_tag` function in the `utils.py` module in case '
+        'lack of searched tag'
+        'should throw a non-standard `ParserFindTagException`'
     )
-    msg = 'Не найден тег unexpected None'
+    msg = 'Tag not found unexpected None'
     assert msg in str(excinfo.value), (
-        f'Нестандартное исключение должно показывать сообщение: `{msg}`'
+        f'Non-standard exception should show the message: `{msg}`'
     )
 
 
@@ -50,7 +50,7 @@ def test_get_response(mock_session):
             MAIN_DOC_URL + 'unexisting_page/'
         )
         assert isinstance(got, requests.models.Response), (
-            'Убедитесь что функция `get_response` в модуле `utils.py` '
-            'делает запрос к странице и возвращает ответ. \n'
-            'Кстати: You are breathtaken!'
+            'Make sure the `get_response` function in the `utils.py` module'
+            'makes a request to the page and returns a response. \n'
+            'By the way: You are breathtaken!'
         )

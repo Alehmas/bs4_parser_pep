@@ -3,36 +3,36 @@ from pathlib import Path
 try:
     from src import constants
 except ModuleNotFoundError:
-    assert False, 'Убедитесь что в директории `src` есть файл `constants.py`'
+    assert False, 'Make sure there is a `constants.py` file in the `src` directory'
 except ImportError:
-    assert False, 'Убедитесь что в директории `src` есть файл `constants.py`'
+    assert False, 'Make sure there is a `constants.py` file in the `src` directory'
 
 
 def test_costants_file():
     assert hasattr(constants, 'MAIN_DOC_URL'), (
-        'В модуле `constants.py` нет переменной `MAIN_DOC_URL`'
+        'There is no `MAIN_DOC_URL` variable in module `constants.py`'
     )
     assert isinstance(constants.MAIN_DOC_URL, str), (
-        'В модуле `constants.py` тип переменной `MAIN_DOC_URL` '
-        'должен быть `str`'
+        'In module `constants.py` variable type `MAIN_DOC_URL` '
+        'must be `str`'
     )
     variables = [
         code for var, code in inspect.getmembers(constants)
         if not var.startswith('__')
     ]
     assert 'https://peps.python.org/' in variables, (
-        'В модуле `constants.py` нет переменной для PEP страницы'
+        'No variable for PEP page in module `constants.py`'
     )
     assert hasattr(constants, 'BASE_DIR'), (
-        'В модуле `constants.py` нет переменной `BASE_DIR`'
+        'There is no `BASE_DIR` variable in module `constants.py`'
     )
     assert isinstance(constants.BASE_DIR, Path), (
-        'В модуле `constants.py` тип переменной `BASE_DIR` должен быть `Path`'
+        'In module `constants.py` the type of variable `BASE_DIR` must be `Path`'
     )
     assert hasattr(constants, 'EXPECTED_STATUS'), (
-        'В модуле `constants.py` нет переменной `EXPECTED_STATUS`'
+        'There is no `EXPECTED_STATUS` variable in module `constants.py`'
     )
     assert isinstance(constants.EXPECTED_STATUS, dict), (
-        'В модуле `constants.py` тип переменной `EXPECTED_STATUS` '
-        'должен быть `dict`'
+        'In module `constants.py` variable type `EXPECTED_STATUS` '
+        'must be a `dict`'
     )

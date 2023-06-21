@@ -24,7 +24,7 @@ try:
     from src import utils, configs, main
 except (ImportError, ModuleNotFoundError, NameError):
     for file in precode_files:
-        assert file in src_dir_files, f'Отсутсвует файл {file}'
+        assert file in src_dir_files, f'Missing file {file}'
 
 
 def pytest_make_parametrize_id(config, val):

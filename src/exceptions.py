@@ -1,2 +1,2 @@
 class ParserFindTagException(Exception):
-    """Вызывается, когда парсер не может найти тег."""
+    """Called when the parser cannot find the tag."""

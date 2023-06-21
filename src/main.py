@@ -1,14 +1,11 @@
-# импорты из стандартной библиотеки
 import logging
 import re
 from urllib.parse import urljoin
 
-# импорты сторонних библиотек
 import requests_cache
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-# импорты модулей текущего проекта
 from configs import configure_argument_parser, configure_logging
 from constants import (BASE_DIR, DOWNLOADS_URL, EXPECTED_STATUS, MAIN_DOC_URL,
                        PEP_NEW_URL, WHATS_NEW)
@@ -19,12 +16,12 @@ from utils import find_tag, get_response
 
 def whats_new(session):
     response = get_response(session, WHATS_NEW)
-    soup = BeautifulSoup(response.text, 'lxml')  # не понял как убрать повторы
+    soup = BeautifulSoup(response.text, 'lxml')
     main_div = find_tag(soup, 'section', attrs={'id': 'what-s-new-in-python'})
     div_with_ul = find_tag(main_div, 'div', attrs={'class': 'toctree-wrapper'})
     sections_by_python = div_with_ul.find_all(
         'li', attrs={'class': 'toctree-l1'})
-    results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
+    results = [('Link to Article', 'Title', 'Editor, Author')]
     for section in tqdm(sections_by_python):
         version_a_tag = section.find('a')
         href = version_a_tag['href']
@@ -50,8 +47,8 @@ def latest_versions(session):
             a_tags = ul.find_all('a')
             break
         else:
-            raise ParserFindTagException('Ничего не нашлось')
-    results = [('Ссылка на документацию', 'Версия', 'Статус')]
+            raise ParserFindTagException('Nothing was found')
+    results = [('Link to documentation', 'Version', 'Status')]
     pattern = r'Python (?P<version>\d\.\d+) \((?P<status>.*)\)'
     for a_tag in a_tags:
         link = a_tag['href']
@@ -82,7 +79,7 @@ def download(session):
     response = session.get(archive_url)
     with open(archive_path, 'wb') as file:
         file.write(response.content)
-    logging.info(f'Архив был загружен и сохранён: {archive_path}')
+    logging.info(f'The archive has been loaded and saved: {archive_path}')
 
 
 def pep(session):
@@ -94,7 +91,7 @@ def pep(session):
     list_date = table_date.find_all('tr')
     count_pep = 0
     count_list = {}
-    count_list['Статус'] = 'Количество'
+    count_list['Status'] = 'Quantity'
     for i in tqdm(list_date):
         pep_href = i.find('a', {'class': 'pep'})['href']
         status_main_date = i.contents[0].text
@@ -111,9 +108,9 @@ def pep(session):
         if len(status_main_date) > 1:
             status = status_main_date[1:]
             if pep_status not in EXPECTED_STATUS[status]:
-                logging.info(f'Несовпадающий статус: {pep_link} '
-                             f'Статус в карточке: {pep_status} '
-                             f'Ожидаемые статусы: {EXPECTED_STATUS[status]}')
+                logging.info(f'Mismatched status: {pep_link} '
+                             f'Status in the card: {pep_status} '
+                             f'Expected statuses: {EXPECTED_STATUS[status]}')
         if pep_status not in count_list:
             count_list[pep_status] = 1
         else:
@@ -133,10 +130,10 @@ MODE_TO_FUNCTION = {
 
 def main():
     configure_logging()
-    logging.info('Парсер запущен!')
+    logging.info('Parser started!')
     arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())
     args = arg_parser.parse_args()
-    logging.info(f'Аргументы командной строки: {args}')
+    logging.info(f'Command line arguments: {args}')
     try:
         session = requests_cache.CachedSession()
         if args.clear_cache:
@@ -145,7 +142,7 @@ def main():
         results = MODE_TO_FUNCTION[parser_mode](session)
         if results is not None:
             control_output(results, args)
-        logging.info('Парсер завершил работу.')
+        logging.info('The parser has finished.')
     except Exception as err:
         logging.exception(err)
 

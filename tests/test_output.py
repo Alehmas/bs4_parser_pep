@@ -6,9 +6,9 @@ from argparse import Namespace
 try:
     from src import outputs
 except ModuleNotFoundError:
-    assert False, 'Убедитесь что в директории `src` есть файл `outputs.py`'
+    assert False, 'Make sure there is a `outputs.py` file in the `src` directory'
 except ImportError:
-    assert False, 'Убедитесь что в директории `src` есть файл `outputs.py`'
+    assert False, 'Make sure there is a `outputs.py` file in the `src` directory'
 
 
 def cli_args(mode: str, output_format: Optional[str]) -> Namespace:
@@ -28,7 +28,7 @@ def test_control_output_default(capsys, records, cli_arg):
         records = '\n'.join([f'{k} {v}' for k, v in records])
     else:
         records = '\n'.join([f'{k} {v} {c}' for k, v, c in records])
-    assert records in captured_out, f'Проверьте вывод в консоль для {cli_arg}'
+    assert records in captured_out, f'Check console output for {cli_arg}'
 
 
 @pytest.mark.parametrize('cli_arg, part_output', [
@@ -40,9 +40,9 @@ def test_control_output_pretty(capsys, records, cli_arg, part_output):
     records = records(cli_arg.mode)
     outputs.control_output(records, cli_arg)
     captured_out, _ = capsys.readouterr()
-    assert '------' in captured_out, f'Проверьте вывод в консоль для {cli_arg}'
+    assert '------' in captured_out, f'Check console output for {cli_arg}'
     assert part_output in captured_out, (
-        f'Некорректный вывод для cli аргумента {cli_arg}.'
+        f'Invalid output for cli argument {cli_arg}.'
     )
 
 
@@ -62,8 +62,8 @@ def test_control_output_file(monkeypatch, tmp_path, records, cli_arg):
         if directory.is_dir()
     ]
     assert dirs == ['results'], (
-        'Убедитесь что для сохранения файлов в директории '
-        '`src` создается директория `results`'
+        'Make sure to save files in directory '
+        '`src` directory `results` is created'
     )
     output_files = [
         file for file in mock_base_dir.glob('**/*')
@@ -72,9 +72,9 @@ def test_control_output_file(monkeypatch, tmp_path, records, cli_arg):
     assert output_files[0].name == (
         f"{cli_arg.mode}_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
     ), (
-        'Убедитесь что имя файла соотвествует паттерну '
-        '<имя-режима_дата_в_формате_%Y-%m-%d_%H-%M-%S>.csv \n'
-        'С форматами кодов вы можете познакомиться тут - \n'
+        'Make sure the file name matches the pattern '
+        '<mode-name_date_in_format_%Y-%m-%d_%H-%M-%S>.csv \n'
+        'You can learn more about code formats here - \n'
         'https://docs.python.org/3/library/datetime.html?'
         'highlight=strftime#strftime-and-strptime-format-codes'
     )
@@ -82,11 +82,11 @@ def test_control_output_file(monkeypatch, tmp_path, records, cli_arg):
 
 def test_output_file():
     assert hasattr(outputs, 'control_output'), (
-        'Напишите функцию `control_output` в модуле `output.py`'
+        'Write a function `control_output` in module `output.py`'
     )
     assert hasattr(outputs, 'pretty_output'), (
-        'Напишите функцию `pretty_output` в модуле `output.py`'
+        'Write a function `pretty_output` in module `output.py`'
     )
     assert hasattr(outputs, 'file_output'), (
-        'Напишите функцию `file_output` в модуле `output.py`'
+        'Write a function `file_output` in module `output.py`'
     )

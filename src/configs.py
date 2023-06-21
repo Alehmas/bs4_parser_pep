@@ -9,23 +9,23 @@ DT_FORMAT = '%d.%m.%Y %H:%M:%S'
 
 
 def configure_argument_parser(available_modes):
-    parser = argparse.ArgumentParser(description='Парсер документации Python')
+    parser = argparse.ArgumentParser(description='Python documentation parser')
     parser.add_argument(
         'mode',
         choices=available_modes,
-        help='Режимы работы парсера'
+        help='Parser Modes'
     )
     parser.add_argument(
         '-c',
         '--clear-cache',
         action='store_true',
-        help='Очистка кеша'
+        help='Clear cache'
     )
     parser.add_argument(
         '-o',
         '--output',
         choices=(PRETTY, FILE),
-        help='Дополнительные способы вывода данных'
+        help='Additional output methods'
     )
     return parser
 

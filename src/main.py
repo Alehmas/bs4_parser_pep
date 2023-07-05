@@ -15,6 +15,8 @@ from utils import find_tag, get_response
 
 
 def whats_new(session):
+    """Collect links to articles about innovations in Python, go through
+    them and take information about the authors and editors of articles. """
     response = get_response(session, WHATS_NEW)
     soup = BeautifulSoup(response.text, 'lxml')
     main_div = find_tag(soup, 'section', attrs={'id': 'what-s-new-in-python'})
@@ -38,6 +40,7 @@ def whats_new(session):
 
 
 def latest_versions(session):
+    """Collect information about Python version statuses."""
     response = get_response(session, MAIN_DOC_URL)
     soup = BeautifulSoup(response.text, 'lxml')
     sidebar = find_tag(soup, 'div', attrs={'class': 'sphinxsidebarwrapper'})
@@ -64,6 +67,7 @@ def latest_versions(session):
 
 
 def download(session):
+    """Download an archive with up-to-date documentation."""
     response = get_response(session, DOWNLOADS_URL)
     soup = BeautifulSoup(response.text, 'lxml')
     main_tag = find_tag(soup, 'div', {'role': 'main'})
@@ -83,6 +87,7 @@ def download(session):
 
 
 def pep(session):
+    """Collect data on all PEPs, parse and saves to csv file."""
     configure_logging()
     response = get_response(session, PEP_NEW_URL)
     soup = BeautifulSoup(response.text, 'lxml')
@@ -129,6 +134,7 @@ MODE_TO_FUNCTION = {
 
 
 def main():
+    """Build and execute the entire program."""
     configure_logging()
     logging.info('Parser started!')
     arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())

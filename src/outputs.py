@@ -8,6 +8,7 @@ from constants import BASE_DIR, DATETIME_FORMAT, FILE, PRETTY
 
 
 def control_output(results, cli_args):
+    """Control the output of results in the program."""
     output = cli_args.output
     if output == PRETTY:
         pretty_output(results)
@@ -18,11 +19,13 @@ def control_output(results, cli_args):
 
 
 def default_output(results):
+    """Print data line by line."""
     for row in results:
         print(*row)
 
 
 def pretty_output(results):
+    """Print data in table format."""
     table = PrettyTable()
     table.field_names = results[0]
     table.align = 'l'
@@ -31,6 +34,7 @@ def pretty_output(results):
 
 
 def file_output(results, cli_args):
+    """Save parsing results to a csv file."""
     results_dir = BASE_DIR / 'results'
     results_dir.mkdir(exist_ok=True)
     parser_mode = cli_args.mode

@@ -9,6 +9,7 @@ DT_FORMAT = '%d.%m.%Y %H:%M:%S'
 
 
 def configure_argument_parser(available_modes):
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(description='Python documentation parser')
     parser.add_argument(
         'mode',
@@ -31,6 +32,7 @@ def configure_argument_parser(available_modes):
 
 
 def configure_logging():
+    """Logging code and save data to a file."""
     LOG_DIR.mkdir(exist_ok=True)
     rotating_handler = RotatingFileHandler(
         LOG_FILE, maxBytes=10**6, backupCount=5)

@@ -14,7 +14,7 @@ The parser can:
 ## Run the parser
 1.Clone the repository:
 ```
-git clone git@github.com:Oleg-2006/yamdb_final.git
+git clone git@github.com:Alehmas/bs4_parser_pep.git
 ```
 
 2.Install virtual environment:
